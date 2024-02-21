@@ -1,0 +1,4 @@
+#ifndef _GATHER_DATA_DAEMON_H_
+#define _GATHER_DATA_DAEMON_H_
+
+#endif // _GATHER_DATA_DAEMON_H_
