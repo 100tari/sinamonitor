@@ -57,8 +57,9 @@ init_cli_daemon()
         {__LOG_WARN__("Failed To Listen Socket\n"); return -1;}
     __LOG_DEBG__("Cli Listen Successfull\n");
 
+    /* if ipc handler fials, program must be terminated */
     if(init_cli_ipc_handler() < 0)
-        {__LOG_WARN__("Failed To Init Ipc Handler\n"); return -1;}
+        {__LOG_CRIT__("Failed To Init Ipc Handler\n"); exit(EXIT_FAILURE);}
     __LOG_INFO__("Cli Ipc Handler Init Successfull\n");
 
     return 1;
