@@ -1,11 +1,30 @@
+#include <libcli.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <pthread.h>
 
 #include "cliDaemon/cliDaemon.h"
+#include "cliDaemon/cliCommandNet.h"
 
 #include "common/logger.h"
 
 static int cli_socket;
+
+static void 
+init_cli(struct cli_def **cli)
+{
+    struct cli_command *get_cmnd, *tx_cmnd, *rx_cmnd;
+    *cli = cli_init();
+
+    cli_set_hostname(*cli, CLI_HOSTNAME);
+    cli_set_banner(*cli, CLI_BANNER);
+
+    get_cmnd = cli_register_command(*cli, NULL, "get", NULL, PRIVILEGE_UNPRIVILEGED, MODE_EXEC, NULL);
+    tx_cmnd = cli_register_command(*cli, get_cmnd, "tx", NULL, PRIVILEGE_UNPRIVILEGED, MODE_EXEC, NULL);
+    rx_cmnd = cli_register_command(*cli, get_cmnd, "rx", NULL, PRIVILEGE_UNPRIVILEGED, MODE_EXEC, NULL);
+    cli_register_command(*cli, tx_cmnd, "traffic", &_get_tx_traffic_command , PRIVILEGE_UNPRIVILEGED, MODE_EXEC, "Get Tx Traffic");
+    cli_register_command(*cli, rx_cmnd, "traffic", &_get_rx_traffic_command, PRIVILEGE_UNPRIVILEGED, MODE_EXEC, "Get Rx Traffic");
+}
 
 int
 init_cli_daemon_socket()
@@ -39,6 +58,20 @@ init_cli_daemon_socket()
     return 1;
 }
 
+static int 
+cli_connection_handler(void *arg)
+{   
+    int *conn = (int*) arg;
+
+    struct cli_def *cli;
+    init_cli(&cli);
+    __LOG_INFO__("Cli Init Succesull For Connection :%d\n",*conn);
+    cli_loop(cli, *conn);
+
+    cli_done(cli);
+    pthread_exit(NULL);
+}
+
 void
 run_cli_daemon()
 {
@@ -49,6 +82,10 @@ run_cli_daemon()
     while((conn = accept(cli_socket, NULL, 0)))
     {
         __LOG_INFO__("New Connection Accepted : %d\n", conn);
-        /* connection handler thread */
+        
+        pthread_t pid;
+        if(pthread_create(&pid, NULL, &cli_connection_handler,(void*) &conn) != 0)
+            pthread_detach(pid);
+        __LOG_INFO__("Thread Created For Connection : %d\n", conn);
     }
 }
