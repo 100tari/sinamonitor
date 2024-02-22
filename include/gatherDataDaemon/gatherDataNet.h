@@ -7,6 +7,7 @@
 */
 
 #include <time.h>
+#include <stdint.h>
 
 /* this macro specifies the interface which we will monitor */
 #define INTERFACE_NAME                  wlan0
@@ -17,8 +18,8 @@
 /* this struct holds needed information to gather NET data */
 typedef struct NET_Gather_Handler_s
 {
-    double          rx;
-    double          tx;
+    uint32_t          rx;
+    uint32_t          tx;
     time_t          time_stamp;
 } NET_Gather_Handler;
 

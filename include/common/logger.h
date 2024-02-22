@@ -10,7 +10,7 @@ extern "C" {                            /* now we don't need this but in future 
 
 /* configuration macros */
 #define DEFAULT_LOG_LEVEL       4       /* a nonnegetive integer; values are listed in bellow in Log Levels */
-#define LOG_META_DATA           1       /* set to nonzero if you want meta data (line, function, time, ...) displays */     
+#define LOG_META_DATA           0       /* set to nonzero if you want meta data (line, function, time, ...) displays */     
 #define LOG_COLORIC             1       /* set to nonzero if you want to log in coloric text */                          
 #define EXIT_IN_ERR             1       /* set to nonezero if you want exit when error happens */
 #define LOG_MAKE_CONF_ON        1       /* used in redefining config macro within the program */
@@ -52,7 +52,7 @@ extern "C" {                            /* now we don't need this but in future 
 #define __LOG_EROR__(...)         {if(DEFAULT_LOG_LEVEL>=LOG_L_EROR){__LOG_META_DATA__(stderr);__LOG_COLORIC__(stderr, CRED);fprintf(stderr,"[ERROR]\t");      fprintf(stderr, __VA_ARGS__);fprintf(stderr, NORM);} if(EXIT_IN_ERR) {fprintf(stderr, "Terminating...\n");(exit(EXIT_FAILURE));}}
 #define __LOG_WARN__(...)         {if(DEFAULT_LOG_LEVEL>=LOG_L_WARN){__LOG_META_DATA__(stdout);__LOG_COLORIC__(stdout, CYEL);fprintf(stdout,"[WARNING]\t");    fprintf(stdout, __VA_ARGS__);fprintf(stdout, NORM);}}
 #define __LOG_INFO__(...)         {if(DEFAULT_LOG_LEVEL>=LOG_L_INFO){__LOG_META_DATA__(stdout);__LOG_COLORIC__(stdout, CGRN);fprintf(stdout,"[INFO]\t\t");     fprintf(stdout, __VA_ARGS__);fprintf(stdout, NORM);}}
-#define __LOG_DEBG__(...)         {if(DEFAULT_LOG_LEVEL>=LOG_L_DEBG){__LOG_META_DATA__(stdout);__LOG_COLORIC__(stdout, CBLU);fprintf(stdout,"[DEBUG]\t");      fprintf(stdout, __VA_ARGS__);fprintf(stdout, NORM);}}
+#define __LOG_DEBG__(...)         {if(DEFAULT_LOG_LEVEL>=LOG_L_DEBG){__LOG_META_DATA__(stdout);__LOG_COLORIC__(stdout, CBLU);fprintf(stdout,"[DEBUG]\t\t");      fprintf(stdout, __VA_ARGS__);fprintf(stdout, NORM);}}
 
 /* handy log macros */
 #define __CheckErr(cond, ...)       {if((cond)) __LOG_EROR__(__VA_ARGS__);};
