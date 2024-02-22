@@ -36,7 +36,7 @@ init_data_NET()
     return 1;
 }
 
-static int
+int
 destroy_data_NET()
 {
     __CheckNull(rx_bytes_file);

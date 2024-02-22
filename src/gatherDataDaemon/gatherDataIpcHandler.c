@@ -58,9 +58,9 @@ handle_gather_data_ipc()
 
             get_data_base(&db);
             if(strcmp(buf_recv, RX_TRAFFIC_REQ) == 0)
-                sprinrf(buf_send, "%lf", db.data_rxTraffic);
+                sprintf(buf_send, "%lf", db.data_rxTraffic);
             if(strcmp(buf_recv, TX_TRAFFIC_REQ) == 0)
-                sprinrf(buf_send, "%lf", db.data_txTraffic);
+                sprintf(buf_send, "%lf", db.data_txTraffic);
 
             if(send(con_socket_fd, (void*) buf_send, MAX_RES_LEN, 0) < 0)
             {

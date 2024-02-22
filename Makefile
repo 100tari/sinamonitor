@@ -9,6 +9,8 @@ CLI_FLAGS=-lcli
 
 GATHER_DATA_SRC=$(GATHER_DATA_SRC_DIR)/gatherDataNet.c			\
 				$(GATHER_DATA_SRC_DIR)/gatherDataBase.c			\
+				$(GATHER_DATA_SRC_DIR)/gatherDataDaemon.c		\
+				$(GATHER_DATA_SRC_DIR)/gatherDataIpcHandler.c	\
 				./test.c
 GATHER_DATA_OBJ=$(GATHER_DATA_SRC:.c=.o)
 
