@@ -1,5 +1,6 @@
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <unistd.h>
 
 #include "cliDaemon/cliIpcHandler.h"
 #include "common/commonIpcHandler.h"
@@ -21,9 +22,9 @@ init_cli_ipc_handler()
     if((cli_ipc_socket = socket(AF_UNIX, SOCK_STREAM, 0)) < 0)
         {__LOG_WARN__("Failed To Create Ipc Socket\n"); return -1;}
     __LOG_INFO__("Ipc Socket Init Successfull\n");
-    
-    if(connect(cli_ipc_socket, (struct sockaddr*) &addr, sizeof(addr)) < 0)
-        {__LOG_WARN__("Failed To Connect To Server\n"); return -1;}
+
+    while(connect(cli_ipc_socket, (struct sockaddr*) &addr, sizeof(addr)) < 0)
+        { __LOG_WARN__("Failed To Connect To Server; Trying Again ...\n"); sleep(1);}
     __LOG_INFO__("Connected To Server Successfully\n");
 
     return 1;

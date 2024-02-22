@@ -11,7 +11,7 @@ _get_tx_traffic_command(struct cli_def *cli,const char *command, char *argv[], i
     char res[MAX_RES_LEN] = {0};
     if(handle_cli_ipc(TX_TRAFFIC_REQ, res, MAX_RES_LEN) < 0)
         {__LOG_WARN__("Cli Ipc Handler Failed\n"); return CLI_ERROR;}
-    cli_print(cli, "%s", res);
+    cli_print(cli, "tx traffic: %s bytes/seconds", res);
     return CLI_OK;
 }
 
@@ -21,6 +21,6 @@ _get_rx_traffic_command(struct cli_def *cli,const char *command, char *argv[], i
     char res[MAX_RES_LEN];
     if(handle_cli_ipc(RX_TRAFFIC_REQ, res, MAX_RES_LEN) < 0) 
         {__LOG_WARN__("Cli Ipc Handler Failed\n"); return CLI_ERROR;}
-    cli_print(cli, "%s", res);
+    cli_print(cli, "rx traffic: %s bytes/seconds", res);
     return CLI_OK;
 }

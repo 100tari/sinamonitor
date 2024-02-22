@@ -2,9 +2,11 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <pthread.h>
+#include <string.h>
 
 #include "cliDaemon/cliDaemon.h"
 #include "cliDaemon/cliCommandNet.h"
+#include "cliDaemon/cliIpcHandler.h"
 
 #include "common/logger.h"
 
@@ -27,7 +29,7 @@ init_cli(struct cli_def **cli)
 }
 
 int
-init_cli_daemon_socket()
+init_cli_daemon()
 {
     __LOG_INFO__("Start Init Cli Socket\n");
     struct sockaddr_in saddr;
@@ -40,20 +42,24 @@ init_cli_daemon_socket()
 
     if((cli_socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
         {__LOG_WARN__("Failed Init Cli Socket\n"); return -1;}
-    __LOG_INFO__("Cli Socket Init Successfull\n");
+    __LOG_DEBG__("Cli Socket Init Successfull\n");
 
     if(setsockopt(cli_socket, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(int)) < 0)
         {__LOG_WARN__("Failed To Set Reuse Addr To Socket\n"); return -1;}
-    __LOG_INFO__("Cli Socket Set Option Successfull\n");
+    __LOG_DEBG__("Cli Socket Set Option Successfull\n");
 
 
     if(bind(cli_socket ,(struct sockaddr*) &saddr, sizeof(saddr)) < 0) 
         {__LOG_WARN__("Failed To Bind Socket\n"); return -1;}
-    __LOG_INFO__("Cli Socket Bind Successfull\n");
+    __LOG_DEBG__("Cli Socket Bind Successfull\n");
 
     if(listen(cli_socket , 100) < 0)
         {__LOG_WARN__("Failed To Listen Socket\n"); return -1;}
-    __LOG_INFO__("Cli Listen Successfull\n");
+    __LOG_DEBG__("Cli Listen Successfull\n");
+
+    if(init_cli_ipc_handler() < 0)
+        {__LOG_WARN__("Failed To Init Ipc Handler\n"); return -1;}
+    __LOG_INFO__("Cli Ipc Handler Init Successfull\n");
 
     return 1;
 }

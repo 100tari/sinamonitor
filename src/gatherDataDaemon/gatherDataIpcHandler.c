@@ -22,7 +22,7 @@ init_gather_data_ipc_handler()
 
     if((ipc_socket_fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0)
         {__LOG_WARN__("Failed To Create Ipc Socket\n"); return -1;}
-    __LOG_INFO__("Ipc Socket Init Successfull\n");
+    __LOG_DEBG__("Ipc Socket Init Successfull\n");
 
     memset(&addr, 0, sizeof(addr));
     addr.sun_family = AF_UNIX;
@@ -30,11 +30,11 @@ init_gather_data_ipc_handler()
 
     if(bind(ipc_socket_fd, (struct sockaddr*) &addr, sizeof(addr)) < 0)
         {__LOG_WARN__("Failed To Bind Socket\n"); return -1;}
-    __LOG_INFO__("Socket Bind Successfull\n");
+    __LOG_DEBG__("Socket Bind Successfull\n");
 
     if(listen(ipc_socket_fd, 100) < 0)
         {__LOG_WARN__("Failed To Listen Socket\n"); return -1;}
-    __LOG_INFO__("Socket Listen Successfull\n");
+    __LOG_DEBG__("Socket Listen Successfull\n");
     
     if((con_socket_fd = accept(ipc_socket_fd, NULL, 0)) < 0)
         {__LOG_WARN__("Failed To Accept New Connection\n"); return -1;}
@@ -58,9 +58,9 @@ handle_gather_data_ipc()
 
             get_data_base(&db);
             if(strcmp(buf_recv, RX_TRAFFIC_REQ) == 0)
-                sprintf(buf_send, "%lf", db.data_rxTraffic);
+                sprintf(buf_send, "%g", db.data_rxTraffic);
             if(strcmp(buf_recv, TX_TRAFFIC_REQ) == 0)
-                sprintf(buf_send, "%lf", db.data_txTraffic);
+                sprintf(buf_send, "%g", db.data_txTraffic);
 
             if(send(con_socket_fd, (void*) buf_send, MAX_RES_LEN, 0) < 0)
             {

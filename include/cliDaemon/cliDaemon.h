@@ -5,7 +5,7 @@
 #define CLI_BANNER              "SINA Compnay's xyz Device"
 #define CLI_PORT                8000
 
-int                             init_cli_daemon_socket();
+int                             init_cli_daemon();
 void                            run_cli_daemon();
 
-#endif // _CLI_DAEMON_H_
+#endif // _CLI_DAEMON_H_y
