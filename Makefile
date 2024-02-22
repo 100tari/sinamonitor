@@ -20,7 +20,7 @@ CLI_SRC=$(CLI_SRC_DIR)/cliDaemon.c 			\
 		$(CLI_SRC_DIR)/cliCommandNet.c 
 CLI_OBJ=$(CLI_SRC:.c=.o)
 
-all: gather_data cli
+all: gather_data cli cli-agent
 
 gather_data: $(GATHER_DATA_OBJ)
 	$(CC) $(GATHER_DATA_OBJ) -o $@
