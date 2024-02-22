@@ -1,7 +1,17 @@
+/*
+      ____ _     ___        _    ____ _____ _   _ _____ 
+     / ___| |   |_ _|      / \  / ___| ____| \ | |_   _|
+    | |   | |    | |_____ / _ \| |  _|  _| |  \| | | |  
+    | |___| |___ | |_____/ ___ \ |_| | |___| |\  | | |  
+     \____|_____|___|   /_/   \_\____|_____|_| \_| |_|  
+
+    version 1.0
+    author: mohammad mahdi sttari
+*/
+
 #include <unistd.h>
 
 #include "cliDaemon/cliDaemon.h"
-
 #include "gatherDataDaemon/gatherDataDaemon.h"
 #include "common/logger.h"
 
@@ -11,6 +21,7 @@ int main()
     {
         case -1:
             __LOG_CRIT__("Failed To Fork\n");
+            exit(EXIT_FAILURE);
             break;
         case 0:
             init_gather_data_daemon();
@@ -22,5 +33,5 @@ int main()
             break;
     }
 
-    return 0;
+    exit(EXIT_SUCCESS);
 }
