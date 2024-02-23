@@ -27,13 +27,7 @@ SNMP_SRC=$(SNMP_SRC_DIR)/snmpDaemon.c		\
 		 ./snmp-agent.c 
 SNMP_OBJ=$(SNMP_SRC:.c=.o)		
 
-all: gather_data cli cli-agent snmp-agent
-
-gather_data: $(GATHER_DATA_OBJ)
-	$(CC) $(GATHER_DATA_OBJ) -o $@
-
-cli: $(CLI_OBJ)
-	$(CC) $(CLI_OBJ) -o $@ $(CLI_FLAGS)
+all: cli-agent snmp-agent
 
 cli-agent: $(CLI_OBJ) $(GATHER_DATA_OBJ) 
 	$(CC) $(GATHER_DATA_OBJ) $(CLI_OBJ) -o $@ $(CLI_FLAGS)
