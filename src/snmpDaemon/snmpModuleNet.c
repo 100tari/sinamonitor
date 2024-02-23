@@ -39,10 +39,11 @@ handle_rxTraffic(netsnmp_mib_handler *handler,
                    netsnmp_request_info *requests)
 {
     char buf[MAX_RES_LEN];
-    if(handle_snmp_agent_ipc(RX_TRAFFIC_REQ, buf, MAX_RES_LEN) < 0)
+    if(handle_snmp_ipc(RX_TRAFFIC_REQ, buf, MAX_RES_LEN) < 0)
         {snmp_log(LOG_CRIT, "[snmpModuleNet] - Getting Data Failed\n"); return SNMP_ERR_RESOURCEUNAVAILABLE;}
     
-    int rxTraffic = atoi(buf);
+    long rxTraffic = atol(buf);
+    snmp_log(LOG_DEBUG, "[snmpModuleNet] - Got rxTraffic : %ld\n", rxTraffic);
 
     if(rxTraffic == -1)
         return SNMP_ERR_RESOURCEUNAVAILABLE;
@@ -72,10 +73,11 @@ handle_txTraffic(netsnmp_mib_handler *handler,
                    netsnmp_request_info *requests)
 {
     char buf[MAX_RES_LEN];
-    if(handle_snmp_agent_ipc(TX_TRAFFIC_REQ, buf, MAX_RES_LEN) < 0)
+    if(handle_snmp_ipc(TX_TRAFFIC_REQ, buf, MAX_RES_LEN) < 0)
         {snmp_log(LOG_CRIT, "[snmpModuleNet] - Getting Data Failed\n"); return SNMP_ERR_RESOURCEUNAVAILABLE;}
     
-    int txTraffic = atoi(buf);
+    long txTraffic = atol(buf);
+    snmp_log(LOG_DEBUG, "[snmpModuleNet] - Got txTraffic : %ld\n", txTraffic);
 
     if(txTraffic == -1)
         return SNMP_ERR_RESOURCEUNAVAILABLE;

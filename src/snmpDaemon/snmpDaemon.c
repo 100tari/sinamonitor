@@ -20,14 +20,15 @@ init_snmp_daemon(const char* agentName)
 
     SOCK_STARTUP
     init_agent(agentName);
-    init_NET();
+    init_module_NET();
     init_snmp(agentName);
     init_master_agent();
 
-    if(init_snmp_agent_ipc_handler() < 0)
+    if(init_snmp_ipc_handler() < 0)
         { snmp_log(LOG_CRIT, "[snmpDaemon] - IPC Socket Init Failed -> Init Snmp Agent Failed\n");
         snmp_shutdown(agentName); return -1;}
 
+    is_init_snmp_daemon = 1;
     snmp_log(LOG_DEBUG, "[snmpDaemon] - Init Snmp Agent Successfull\n");
     return 1;
 }

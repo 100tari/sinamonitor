@@ -47,14 +47,14 @@ init_snmp_ipc_handler()
 }
 
 int
-handle_cli_ipc(const char* req, char* data, size_t data_size)
+handle_snmp_ipc(const char* req, char* data, size_t data_size)
 {
     if(!is_ipc_socket_init)
         {snmp_log(LOG_WARNING, "[snmpIpcHandler] - Ipc Socket Is Not Initialized\n"); return -1;}
 
     if(send(snmp_ipc_socket,(void*) req, MAX_REQ_LEN, 0) < 0)
         {snmp_log(LOG_WARNING ,"[snmpIpcHandler] - Failed To Sending Request (%s) To Server\n", req); return -1;}
-    snmp_info(LOG_INFO ,"[snmpIpcHandler] - Request %s Sent To Peer\n", req);
+    snmp_log(LOG_INFO ,"[snmpIpcHandler] - Request %s Sent To Peer\n", req);
         
     if(recv(snmp_ipc_socket, (void*) data, data_size, 0) < 0)
         {snmp_log(LOG_WARNING ,"[snmpIpcHandler] - Failed To Receive Response From Server For Request (%s)\n", req); return -1;}
