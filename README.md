@@ -26,3 +26,5 @@ You can edit some properties like port number, hostname and ... in cliDaemon.h</
 
 Commands could be found in cliCommandNet.h </br>
 
+## How To Make? 
+Use command `make cli-agent` to build cli-agent and `make snmp-agent` to build snmp-agent, by using `make clean` you can clean unused files
