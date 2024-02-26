@@ -62,14 +62,17 @@ read_data_NET(NET_Gather_Handler *ngh)
     ngh->rx = 0;
     ngh->tx = 0;
 
+    if(lseek(rx_bytes_file, 0, SEEK_SET) != 0)
+        {__LOG_WARN__("rx_bytes_file lseek Failed\n"); return -1;}
+    if(lseek(tx_bytes_file, 0, SEEK_SET))
+        {__LOG_WARN__("tx_bytes_file lseek Failed\n"); return -1;}
+
     while(read(rx_bytes_file, c, 1) == 1) 
         {if(c[0] >= '0' && c[0] <= '9') ngh->rx = ngh->rx*10 + (c[0] - '0'); }
     
     while(read(tx_bytes_file, c, 1) == 1)   
         {if(c[0] >= '0' && c[0] <= '9') ngh->tx = ngh->tx*10 + (c[0] - '0'); }
 
-    lseek(rx_bytes_file, 0, SEEK_SET);
-    lseek(tx_bytes_file, 0, SEEK_SET);
 
     ngh->time_stamp = time(NULL);
 
