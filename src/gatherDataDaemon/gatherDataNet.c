@@ -64,7 +64,7 @@ read_data_NET(NET_Gather_Handler *ngh)
 
     if(lseek(rx_bytes_file, 0, SEEK_SET) != 0)
         {__LOG_WARN__("rx_bytes_file lseek Failed\n"); return -1;}
-    if(lseek(tx_bytes_file, 0, SEEK_SET))
+    if(lseek(tx_bytes_file, 0, SEEK_SET) != 0)
         {__LOG_WARN__("tx_bytes_file lseek Failed\n"); return -1;}
 
     while(read(rx_bytes_file, c, 1) == 1) 
