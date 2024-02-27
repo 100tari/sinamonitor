@@ -120,7 +120,7 @@ run_data_NET()
     {
         if(update_data_NET() < 0)
         {
-            __LOG_ERR__("Update Data Net Failed; Terminating run_data_NET()\n");
+            __LOG_WARN__("Update Data Net Failed; Terminating run_data_NET()\n");
             destroy_data_NET();
             return;
         }
